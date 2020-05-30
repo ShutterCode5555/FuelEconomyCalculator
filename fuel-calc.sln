@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fuel-calc", "fuel-calc\fuel-calc.csproj", "{734C53C5-758B-48DD-B604-D170842FA4DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{734C53C5-758B-48DD-B604-D170842FA4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{734C53C5-758B-48DD-B604-D170842FA4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{734C53C5-758B-48DD-B604-D170842FA4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{734C53C5-758B-48DD-B604-D170842FA4DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7CBF0061-CA68-4CE5-A845-659F3FBC07FA}
+	EndGlobalSection
+EndGlobal
