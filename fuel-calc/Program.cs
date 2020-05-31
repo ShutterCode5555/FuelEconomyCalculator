@@ -15,17 +15,7 @@ namespace fuel_calc
             int historyChoice;
             string menuChoiceString;
             string historyChoiceString;
-            string litresString;
-            string milesString;
-            string gallonsString;
-            string kmString;
-            double litres;
-            double miles;
-            double output;
-            double gallons;
-            double km;
             bool quit = false;
-            bool historyQuit = false;
             const double MIN_LITRES = 1;
             const double MAX_LITRES = 1000;
             const double MIN_MILES = 1;
@@ -41,7 +31,7 @@ namespace fuel_calc
             const string KPL_FILENAME = "KPL - History";
             do
             {
-                historyQuit = false;
+                bool historyQuit = false;
                 Console.Clear();
                 Console.WriteLine("Fuel Economy Calculator");
                 Console.WriteLine("\n");
@@ -66,168 +56,68 @@ namespace fuel_calc
                     {
                         //MPG
                         case 1:
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type litres pumped:");
-                                    litresString = Console.ReadLine();
-                                    litres = Double.Parse(litresString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    litres = 0;
-                                }
-                            }
-                            while (litres < MIN_LITRES || litres > MAX_LITRES);
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type miles travelled:");
-                                    milesString = Console.ReadLine();
-                                    miles = Double.Parse(milesString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    miles = 0;
-                                }
-                            }
-                            while (miles < MIN_MILES || miles > MAX_MILES);
-                            output = FuelEconomyCalc4var(litres, miles, LITRES2GALLONS, MPG_FILENAME);
-                            Console.WriteLine($"Your MPG is: {output}");
+                            double outputCase1;
+                            double fuelAmountCase1;
+                            outputCase1 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres");
+                            fuelAmountCase1 = outputCase1;
+                            double milesCase1;
+                            double outputCase1a;
+                            outputCase1a = CalcEntry(MIN_MILES, MAX_MILES, "miles");
+                            milesCase1 = outputCase1a;
+                            double outputResult;
+                            outputResult = FuelEconomyCalc4var(fuelAmountCase1, milesCase1, LITRES2GALLONS, MPG_FILENAME);
+                            Console.WriteLine($"Your MPG is: {outputResult}");
                             Console.WriteLine("\n");
                             Console.WriteLine("Press ENTER to continue");
                             Console.ReadLine();
                             break;
                         //MPG (US)
                         case 2:
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type gallons pumped:");
-                                    gallonsString = Console.ReadLine();
-                                    gallons = Double.Parse(gallonsString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    gallons = 0;
-                                }
-                            }
-                            while (gallons < MIN_GALLONS || gallons > MAX_GALLONS);
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type miles travelled:");
-                                    milesString = Console.ReadLine();
-                                    miles = Double.Parse(milesString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    miles = 0;
-                                }
-                            }
-                            while (miles < MIN_MILES || miles > MAX_MILES);
-                            output = FuelEconomyCalc3var(gallons, miles, MPG_FILENAME);
-                            Console.WriteLine($"Your MPG is: {output}");
+                            double outputCase2;
+                            double fuelAmountCase2;
+                            outputCase2 = CalcEntry(MIN_GALLONS, MAX_GALLONS, "gallons");
+                            fuelAmountCase2 = outputCase2;
+                            double milesCase2;
+                            double outputCase2a;
+                            outputCase2a = CalcEntry(MIN_MILES, MAX_MILES, "miles");
+                            milesCase2 = outputCase2a;
+                            double outputResult2;
+                            outputResult2 = FuelEconomyCalc3var(fuelAmountCase2, milesCase2, MPG_FILENAME);
+                            Console.WriteLine($"Your MPG is: {outputResult2}");
                             Console.WriteLine("\n");
                             Console.WriteLine("Press ENTER to continue");
                             Console.ReadLine();
                             break;
                         //LperKm100
                         case 3:
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type litres pumped:");
-                                    litresString = Console.ReadLine();
-                                    litres = Double.Parse(litresString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    litres = 0;
-                                }
-                            }
-                            while (litres < MIN_LITRES || litres > MAX_LITRES);
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type KM travelled:");
-                                    kmString = Console.ReadLine();
-                                    km = Double.Parse(kmString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    km = 0;
-                                }
-                            }
-                            while (km < MIN_KM || km > MAX_KM);
-                            output = FuelEconomyCalc4var(litres, km, LP100KM, LP100KM_FILENAME);
-                            Console.WriteLine($"Your L/100km is: {output}/100km");
+                            double outputCase3;
+                            double fuelAmountCase3;
+                            outputCase3 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres");
+                            fuelAmountCase3 = outputCase3;
+                            double milesCase3;
+                            double outputCase3a;
+                            outputCase3a = CalcEntry(MIN_KM, MAX_KM, "km");
+                            milesCase3 = outputCase3a;
+                            double outputResult3;
+                            outputResult3 = FuelEconomyCalc4var(fuelAmountCase3, milesCase3, LP100KM, MPG_FILENAME);
+                            Console.WriteLine($"Your L/100km is: {outputResult3}");
                             Console.WriteLine("\n");
                             Console.WriteLine("Press ENTER to continue");
                             Console.ReadLine();
                             break;
                         //KPL
                         case 4:
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type litres pumped:");
-                                    litresString = Console.ReadLine();
-                                    litres = Double.Parse(litresString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    litres = 0;
-                                }
-                            }
-                            while (litres < MIN_LITRES || litres > MAX_LITRES);
-                            do
-                            {
-                                try
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Type KM travelled:");
-                                    kmString = Console.ReadLine();
-                                    km = Double.Parse(kmString);
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid number entered, press ENTER to try again");
-                                    Console.ReadLine();
-                                    km = 0;
-                                }
-                            }
-                            while (km < MIN_KM || km > MAX_KM);
-                            output = FuelEconomyCalc3var(litres, km, KPL_FILENAME);
-                            Console.WriteLine($"Your KPL is: {output}");
+                            double outputCase4;
+                            double fuelAmountCase4;
+                            outputCase4 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres");
+                            fuelAmountCase4 = outputCase4;
+                            double milesCase4;
+                            double outputCase4a;
+                            outputCase4a = CalcEntry(MIN_KM, MAX_KM, "km");
+                            milesCase4 = outputCase4a;
+                            double outputResult4;
+                            outputResult4 = FuelEconomyCalc3var(fuelAmountCase4, milesCase4, MPG_FILENAME);
+                            Console.WriteLine($"Your KPL is: {outputResult4}");
                             Console.WriteLine("\n");
                             Console.WriteLine("Press ENTER to continue");
                             Console.ReadLine();
@@ -301,15 +191,16 @@ namespace fuel_calc
                             Console.Clear();
                             Console.WriteLine("Instructions");
                             Console.WriteLine("\n");
-                            Console.WriteLine("To use this program, you will need to wait until your LOW FUEL \n" +
-                                "warning light comes on, and at that point refuel as normal. \n" +
-                                "When you refuel, reset your trip counter, and make a note \n" +
-                                "of how much fuel in litres/gallons you put into the car. \n" +
-                                "The next time your LOW fuel warning comes on, make a note \n" +
-                                "of the miles/kilometres travelled on your trip counter. \n" +
-                                "Now you can enter the distance travelled and amount of fuel put \n" +
-                                "into the car into this calculator to work out either the MPG, \n" +
-                                "L/100km or KPL between the two LOW FUEL warnings.");
+                            Console.WriteLine("To use this program, you must first fill your car's\n" +
+                            "fuel tank to the brim, then zero your trip counter. Then\n" +
+                            "drive for a week and then refuel, making a note of the\n" +
+                            "litres or gallons it took to refill the tank. Then after taking\n" +
+                            "a note of the miles or km on the trip counter an zeroing the trip\n" +
+                            "put the two sets of numbers into the calculator for the unit of\n" +
+                            "measurement chosen.\n" +
+                            "\n" +
+                            "Each calculator has the units of measurement used for the calculation\n" +
+                            "next to it's menu option on the main menu.");
                             Console.WriteLine("\n");
                             Console.WriteLine("\n");
                             Console.WriteLine("Press ENTER to continue");
@@ -397,6 +288,25 @@ namespace fuel_calc
                 break;
             }
             confirm = "no";
+        }
+        static double CalcEntry(double constantMin, double constantMax, string entryTypeWriteline)
+        {
+            double output;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine($"Type {entryTypeWriteline} pumped:");
+                string entryString = Console.ReadLine();
+                bool hasParsedEntry = Double.TryParse(entryString, out output);
+                if (!hasParsedEntry)
+                {
+                    Console.WriteLine("Invalid number entered, press ENTER to try again");
+                    Console.ReadLine();
+                    output = 0;
+                }
+            }
+            while (output < constantMin || output > constantMax);
+            return output;
         }
     }
 }
