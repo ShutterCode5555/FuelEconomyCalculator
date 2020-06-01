@@ -1,21 +1,15 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Reflection.Metadata.Ecma335;
-
 namespace fuel_calc
 {
     class Program
     {
         static void Main(string[] ags)
         {
-            //Variables
-            int menuChoice;
-            int historyChoice;
-            string menuChoiceString;
-            string historyChoiceString;
-            bool quit = false;
             const double MIN_LITRES = 1;
             const double MAX_LITRES = 1000;
             const double MIN_MILES = 1;
@@ -29,16 +23,20 @@ namespace fuel_calc
             const string MPG_FILENAME = "MPG-History";
             const string LP100KM_FILENAME = "Lp100km-History";
             const string KPL_FILENAME = "KPL - History";
+            const string TRAVELLED = "travelled";
+            const string PUMPED = "pumped";
+            bool quit = false;
             do
             {
-                bool historyQuit = false;
+                bool hasParsedMenuEntry;
+                int menuChoice;
+                do
+                {
                 Console.Clear();
-                Console.WriteLine("Fuel Economy Calculator");
-                Console.WriteLine("\n");
-                Console.WriteLine("\n");
+                Console.WriteLine("Fuel Economy Calculator\n" + "=======================");
                 Console.WriteLine("\n");
                 Console.WriteLine("[1] Calculate MPG - litres/miles");
-                Console.WriteLine("[2] Calculate MPG  - gallons/miles");
+                Console.WriteLine("[2] Calculate MPG  - gallons(US or Imperial)/miles");
                 Console.WriteLine("[3] Calculate L/100km - litres/kilometres");
                 Console.WriteLine("[4] Calculate KPL - litres/kilometres");
                 Console.WriteLine("\n");
@@ -47,22 +45,21 @@ namespace fuel_calc
                 Console.WriteLine("[7] Quit");
                 Console.WriteLine("\n");
                 Console.WriteLine("Please type the corresponding number for desired menu option and press ENTER:");
-                menuChoiceString = Console.ReadLine();
-                try
-                {
-                    //Menu selection and calculation
-                    menuChoice = Int32.Parse(menuChoiceString);
+                string menuChoiceString = Console.ReadLine();
+                hasParsedMenuEntry = Int32.TryParse(menuChoiceString, out menuChoice);
+                }
+                while (!hasParsedMenuEntry);
                     switch (menuChoice)
                     {
                         //MPG
                         case 1:
                             double outputCase1;
                             double fuelAmountCase1;
-                            outputCase1 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres");
+                            outputCase1 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
                             fuelAmountCase1 = outputCase1;
                             double milesCase1;
                             double outputCase1a;
-                            outputCase1a = CalcEntry(MIN_MILES, MAX_MILES, "miles");
+                            outputCase1a = CalcEntry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
                             milesCase1 = outputCase1a;
                             double outputResult;
                             outputResult = FuelEconomyCalc4var(fuelAmountCase1, milesCase1, LITRES2GALLONS, MPG_FILENAME);
@@ -71,15 +68,15 @@ namespace fuel_calc
                             Console.WriteLine("Press ENTER to continue");
                             Console.ReadLine();
                             break;
-                        //MPG (US)
+                        //MPG (US/Imperial)
                         case 2:
                             double outputCase2;
                             double fuelAmountCase2;
-                            outputCase2 = CalcEntry(MIN_GALLONS, MAX_GALLONS, "gallons");
+                            outputCase2 = CalcEntry(MIN_GALLONS, MAX_GALLONS, "gallons", PUMPED);
                             fuelAmountCase2 = outputCase2;
                             double milesCase2;
                             double outputCase2a;
-                            outputCase2a = CalcEntry(MIN_MILES, MAX_MILES, "miles");
+                            outputCase2a = CalcEntry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
                             milesCase2 = outputCase2a;
                             double outputResult2;
                             outputResult2 = FuelEconomyCalc3var(fuelAmountCase2, milesCase2, MPG_FILENAME);
@@ -92,11 +89,11 @@ namespace fuel_calc
                         case 3:
                             double outputCase3;
                             double fuelAmountCase3;
-                            outputCase3 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres");
+                            outputCase3 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
                             fuelAmountCase3 = outputCase3;
                             double milesCase3;
                             double outputCase3a;
-                            outputCase3a = CalcEntry(MIN_KM, MAX_KM, "km");
+                            outputCase3a = CalcEntry(MIN_KM, MAX_KM, "km", TRAVELLED);
                             milesCase3 = outputCase3a;
                             double outputResult3;
                             outputResult3 = FuelEconomyCalc4var(fuelAmountCase3, milesCase3, LP100KM, MPG_FILENAME);
@@ -109,11 +106,11 @@ namespace fuel_calc
                         case 4:
                             double outputCase4;
                             double fuelAmountCase4;
-                            outputCase4 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres");
+                            outputCase4 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
                             fuelAmountCase4 = outputCase4;
                             double milesCase4;
                             double outputCase4a;
-                            outputCase4a = CalcEntry(MIN_KM, MAX_KM, "km");
+                            outputCase4a = CalcEntry(MIN_KM, MAX_KM, "km", TRAVELLED);
                             milesCase4 = outputCase4a;
                             double outputResult4;
                             outputResult4 = FuelEconomyCalc3var(fuelAmountCase4, milesCase4, MPG_FILENAME);
@@ -124,6 +121,12 @@ namespace fuel_calc
                             break;
                         //History
                         case 5:
+                        int historyChoice;
+                        string historyChoiceString;
+                        bool historyQuit = false;
+                        bool hasParsedHistoryChoice;
+                        do
+                        {
                             do
                             {
                                 Console.Clear();
@@ -138,69 +141,68 @@ namespace fuel_calc
                                 Console.WriteLine("[4] Clear History");
                                 Console.WriteLine("[5] Back to Main Menu");
                                 historyChoiceString = Console.ReadLine();
-                                try
-                                {
-                                    historyChoice = Int32.Parse(historyChoiceString);
-                                    switch (historyChoice)
-                                    {
-                                        case 1:
-                                            MPGHistory("MPG History", MPG_FILENAME);
-                                            Console.WriteLine("\n");
-                                            Console.WriteLine("Press ENTER to continue");
-                                            Console.ReadLine();
-                                            break;
-                                        case 2:
-                                            MPGHistory("L/100km History", LP100KM_FILENAME);
-                                            Console.WriteLine("\n");
-                                            Console.WriteLine("Press ENTER to continue");
-                                            Console.ReadLine();
-                                            break;
-                                        case 3:
-                                            MPGHistory("KPL History", KPL_FILENAME);
-                                            Console.WriteLine("\n");
-                                            Console.WriteLine("Press ENTER to continue");
-                                            Console.ReadLine();
-                                            break;
-                                        case 4:
-                                            HistoryClear(MPG_FILENAME, LP100KM_FILENAME, KPL_FILENAME);
-                                            Console.WriteLine("\n");
-                                            Console.WriteLine("Press ENTER to continue");
-                                            Console.ReadLine();
-                                            break;
-                                        case 5:
-                                            historyQuit = true;
-                                            break;
-                                        //Wrong number entered
-                                        default:
-                                            Console.Clear();
-                                            Console.WriteLine("Invalid Number Entered");
-                                            Console.WriteLine("\n");
-                                            Console.WriteLine("Press ENTER to continue");
-                                            Console.ReadLine();
-                                            break;
-                                    }
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Invalid Option typed");
-                                }
+                                hasParsedHistoryChoice = Int32.TryParse(historyChoiceString, out historyChoice);
                             }
-                            while (!historyQuit);
+                            while (!hasParsedHistoryChoice);
+                            switch (historyChoice)
+                            {
+                                case 1:
+                                    MPGHistory("MPG History", MPG_FILENAME);
+                                    Console.WriteLine("\n");
+                                    Console.WriteLine("Press ENTER to continue");
+                                    Console.ReadLine();
+                                    break;
+                                case 2:
+                                    MPGHistory("L/100km History", LP100KM_FILENAME);
+                                    Console.WriteLine("\n");
+                                    Console.WriteLine("Press ENTER to continue");
+                                    Console.ReadLine();
+                                    break;
+                                case 3:
+                                    MPGHistory("KPL History", KPL_FILENAME);
+                                    Console.WriteLine("\n");
+                                    Console.WriteLine("Press ENTER to continue");
+                                    Console.ReadLine();
+                                    break;
+                                case 4:
+                                    string confirm = "no";
+                                    Console.WriteLine("Are you sure you want to CLEAR ALL HISTORY LOGS.");
+                                    Console.WriteLine("\n");
+                                    Console.WriteLine("!!THIS WILL PERMANENTLY DELETE ALL LOGS!!");
+                                    Console.WriteLine("\n");
+                                    Console.WriteLine("Type 'yes' and then press ENTER to confirm");
+                                    confirm = Console.ReadLine();
+                                    while (confirm == "yes")
+                                    {
+                                        HistoryClear(MPG_FILENAME);
+                                        HistoryClear(LP100KM_FILENAME);
+                                        HistoryClear(KPL_FILENAME);
+                                        Console.WriteLine("HISTORY CLEARED!");
+                                        break;
+                                    }
+                                    confirm = "no";
+                                    Console.WriteLine("\n");
+                                    Console.WriteLine("Press ENTER to continue");
+                                    Console.ReadLine();
+                                    break;
+                                case 5:
+                                    historyQuit = true;
+                                    break;
+                                default:
+                                    Console.Clear();
+                                    break;
+                            }
+                        }
+                        while (!historyQuit);
                             break;
                         case 6:
                             Console.Clear();
                             Console.WriteLine("Instructions");
                             Console.WriteLine("\n");
-                            Console.WriteLine("To use this program, you must first fill your car's\n" +
-                            "fuel tank to the brim, then zero your trip counter. Then\n" +
-                            "drive for a week and then refuel, making a note of the\n" +
-                            "litres or gallons it took to refill the tank. Then after taking\n" +
-                            "a note of the miles or km on the trip counter an zeroing the trip\n" +
-                            "put the two sets of numbers into the calculator for the unit of\n" +
-                            "measurement chosen.\n" +
-                            "\n" +
-                            "Each calculator has the units of measurement used for the calculation\n" +
-                            "next to it's menu option on the main menu.");
+                            Console.WriteLine("To use this program, you must first fill your car's\n" + "fuel tank to the brim, then zero your trip counter. Then\n" + 
+                            "drive for a week and then refuel, making a note of the\n" + "litres or gallons it took to refill the tank. Then after taking\n" +
+                            "a note of the miles or km on the trip counter an zeroing the trip\n" + "put the two sets of numbers into the calculator for the unit of\n" +
+                            "measurement chosen.\n" + "\n" + "Each calculator has the units of measurement used for the calculation\n" + "next to it's menu option on the main menu.");
                             Console.WriteLine("\n");
                             Console.WriteLine("\n");
                             Console.WriteLine("Press ENTER to continue");
@@ -209,20 +211,10 @@ namespace fuel_calc
                         case 7:
                             quit = true;
                             break;
-                        //Wrong number entered
                         default:
                             Console.Clear();
-                            Console.WriteLine("Invalid Number Entered");
-                            Console.WriteLine("\n");
-                            Console.WriteLine("Press ENTER to continue");
-                            Console.ReadLine();
                             break;
                     }
-                }
-                catch
-                {
-                    Console.WriteLine("Invalid Option typed");
-                }
             }
             while (!quit);
         }
@@ -259,43 +251,21 @@ namespace fuel_calc
             }
             reader.Close();
         }
-        static void HistoryClear(string mpg, string lp100km, string kpl)
+        static void HistoryClear(string filename)
         {
-            string confirm = "no";
-            Console.WriteLine("Are you sure you want to CLEAR ALL HISTORY LOGS.");
-            Console.WriteLine("\n");
-            Console.WriteLine("!!THIS WILL PERMANENTLY DELETE ALL LOGS!!");
-            Console.WriteLine("\n");
-            Console.WriteLine("Type 'yes' and then press ENTER to confirm");
-            confirm = Console.ReadLine();
-            while (confirm == "yes")
-            {
                 StreamWriter writer;
-                writer = new StreamWriter($"{mpg}.txt");
+                writer = new StreamWriter($"{filename}.txt");
                 writer.WriteLine(DateTime.Now);
                 writer.WriteLine("HISTORY CLEARED");
                 writer.Close();
-                StreamWriter writer2;
-                writer2 = new StreamWriter($"{lp100km}.txt");
-                writer2.WriteLine(DateTime.Now);
-                writer2.WriteLine("HISTORY CLEARED");
-                writer2.Close();
-                StreamWriter writer3;
-                writer3 = new StreamWriter($"{kpl}.txt");
-                writer3.WriteLine(DateTime.Now);
-                writer3.WriteLine("HISTORY CLEARED");
-                writer3.Close();
-                break;
-            }
-            confirm = "no";
         }
-        static double CalcEntry(double constantMin, double constantMax, string entryTypeWriteline)
+        static double CalcEntry(double constantMin, double constantMax, string entryTypeWriteline, string verb)
         {
             double output;
             do
             {
                 Console.Clear();
-                Console.WriteLine($"Type {entryTypeWriteline} pumped:");
+                Console.WriteLine($"Type {entryTypeWriteline} {verb}:");
                 string entryString = Console.ReadLine();
                 bool hasParsedEntry = Double.TryParse(entryString, out output);
                 if (!hasParsedEntry)
