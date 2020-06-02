@@ -9,23 +9,23 @@ namespace fuel_calc
     {
         public static double FuelEconomyCalc(double fuel, double distance, string filename, double multiplier)
         {
-            double mpg = (distance / fuel) * multiplier;
+            double result = (distance / fuel) * multiplier;
             StreamWriter writer;
             writer = File.AppendText($"{filename}.txt");
             writer.WriteLine(DateTime.Now);
-            writer.WriteLine(mpg);
+            writer.WriteLine(result);
             writer.Close();
-            return mpg;
+            return result;
         }
         public static double FuelEconomyCalc(double fuel, double distance, string filename)
         {
-            double mpg = distance / fuel;
+            double result = distance / fuel;
             StreamWriter writer;
             writer = File.AppendText($"{filename}.txt");
             writer.WriteLine(DateTime.Now);
-            writer.WriteLine(mpg);
+            writer.WriteLine(result);
             writer.Close();
-            return mpg;
+            return result;
         }
     }
 }
