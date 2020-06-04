@@ -1,4 +1,4 @@
-﻿
+﻿using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
@@ -16,15 +16,12 @@ namespace fuel_calc
         {
             get { return dataEntry; }
         }
-
-
         public double Result
         {
             get { return result; }
         }
         public double Entry(double constantMin, double constantMax, string entryTypeWriteline, string verb)
         {
-
             do
             {
                 Console.Clear();
@@ -39,41 +36,17 @@ namespace fuel_calc
                 }
             }
             while (dataEntry < constantMin || dataEntry > constantMax);
-
-            return result;
+            return DataEntry;
         }
-
-
-
-
         public double Calculate(double input1, double input2, string filename, double multiplier = 1)
         {
             result = (input1 / input2) * multiplier;
-
+            StreamWriter writer;
+            writer = File.AppendText($"{filename}.txt");
+            writer.WriteLine(DateTime.Now);
+            writer.WriteLine(result);
+            writer.Close();
             return Result;
         }
-
-
     }
-
 }
-
-
-
-
-
-
-
-//    public double DataEntry(string EntryString)
-//  {
-//    bool hasParsedEntry = Double.TryParse(entryString, out userEntry);
-//    if (!hasParsedEntry)
-//   {
-//      Console.WriteLine("Invalid number entered, press ENTER to try again");
-//     Console.ReadLine();
-//    userEntry = 0;
-//  }
-//  return userEntry;
-// }
-
-

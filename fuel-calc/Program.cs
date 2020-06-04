@@ -55,71 +55,48 @@ namespace fuel_calc
 
                     case 1:
                         var fuelEntry = new FuelCalcv2();
-
                         double fuelResult = fuelEntry.Entry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
-
                         var distanceEntry = new FuelCalcv2();
-
-
-                        double distanceResult = distanceEntry.Entry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
-
-
-                        // fuelCalcv2.Calculate(fuelCalcv2.FuelEntry, fuelCalcv2.DistanceEntry, MPG_FILENAME, LITRES2GALLONS);
-                        double resultData = distanceEntry.Calculate(fuelResult, distanceResult, MPG_FILENAME, LITRES2GALLONS);
-
+                        double distanceResult = distanceEntry.Entry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
+                        double resultData = distanceEntry.Calculate(distanceResult, fuelResult, MPG_FILENAME, LITRES2GALLONS);
                         Console.Clear();
                         Console.WriteLine($"Your MPG is: {resultData}{nl}");
-
                         Console.WriteLine("Press ENTER to continue");
                         Console.ReadLine();
-
-
-
-                        //    case 1:
-                        //      double outputCase1, fuelAmountCase1, distanceCase1, outputCase1a, outputResult;
-                        //       outputCase1 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
-                        //       fuelAmountCase1 = outputCase1;
-                        //      outputCase1a = CalcEntry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
-                        //       distanceCase1 = outputCase1a;
-                        //       outputResult = fuelCalc.FuelEconomyCalc(fuelAmountCase1, distanceCase1, MPG_FILENAME, LITRES2GALLONS);
-                        //       Console.WriteLine($"Your MPG is: {outputResult}{nl}");
-                        //      Console.WriteLine("Press ENTER to continue");
-                        //      Console.ReadLine();
                         break;
                     //MPG (US/Imperial)
                     case 2:
-                        // var fuelcalc = new FuelCalc();
-                        double outputCase2, fuelAmountCase2, distanceCase2, outputCase2a, outputResult2;
-                        outputCase2 = CalcEntry(MIN_GALLONS, MAX_GALLONS, "gallons", PUMPED);
-                        fuelAmountCase2 = outputCase2;
-                        outputCase2a = CalcEntry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
-                        distanceCase2 = outputCase2a;
-                        //      outputResult2 = fuelCalc.FuelEconomyCalc(fuelAmountCase2, distanceCase2, MPG_FILENAME);
-                        //     Console.WriteLine($"Your MPG is: {outputResult2}{nl}");
+                        var fuelEntry2 = new FuelCalcv2();
+                        double fuelResult2 = fuelEntry2.Entry(MIN_GALLONS, MAX_GALLONS, "gallons", PUMPED);
+                        var distanceEntry2 = new FuelCalcv2();
+                        double distanceResult2 = distanceEntry2.Entry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
+                        double resultData2 = distanceEntry2.Calculate(distanceResult2, fuelResult2, MPG_FILENAME);
+                        Console.Clear();
+                        Console.WriteLine($"Your MPG is: {resultData2}{nl}");
                         Console.WriteLine("Press ENTER to continue");
                         Console.ReadLine();
                         break;
                     //LperKm100
                     case 3:
-                        double outputCase3, fuelAmountCase3, distanceCase3, outputCase3a, outputResult3;
-                        outputCase3 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
-                        fuelAmountCase3 = outputCase3;
-                        outputCase3a = CalcEntry(MIN_KM, MAX_KM, "km", TRAVELLED);
-                        distanceCase3 = outputCase3a;
-                        //    outputResult3 = fuelCalc.FuelEconomyCalc(distanceCase3, fuelAmountCase3, MPG_FILENAME, LP100KM); //method inputs distance+fuel reversed due to base calc diff
-                        //     Console.WriteLine($"Your L/100km is: {outputResult3}{nl}");
+                        var fuelEntry3 = new FuelCalcv2();
+                        double fuelResult3 = fuelEntry3.Entry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
+                        var distanceEntry3 = new FuelCalcv2();
+                        double distanceResult3 = distanceEntry3.Entry(MIN_KM, MAX_KM, "km", TRAVELLED);
+                        double resultData3 = distanceEntry3.Calculate(fuelResult3, distanceResult3, LP100KM_FILENAME, LP100KM); //distance/fuel inputs reversed due to calc difference
+                        Console.Clear();
+                        Console.WriteLine($"Your MPG is: {resultData3}{nl}");
                         Console.WriteLine("Press ENTER to continue");
                         Console.ReadLine();
                         break;
                     //KPL
                     case 4:
-                        double outputCase4, fuelAmountCase4, distanceCase4, outputCase4a, outputResult4;
-                        outputCase4 = CalcEntry(MIN_LITRES, MAX_LITRES, "litres", PUMPED);
-                        fuelAmountCase4 = outputCase4;
-                        outputCase4a = CalcEntry(MIN_KM, MAX_KM, "km", TRAVELLED);
-                        distanceCase4 = outputCase4a;
-                        //    outputResult4 = fuelCalc.FuelEconomyCalc(fuelAmountCase4, distanceCase4, MPG_FILENAME);
-                        //   Console.WriteLine($"Your KPL is: {outputResult4}{nl}");
+                        var fuelEntry4 = new FuelCalcv2();
+                        double fuelResult4 = fuelEntry4.Entry(MIN_GALLONS, MAX_GALLONS, "gallons", PUMPED);
+                        var distanceEntry4 = new FuelCalcv2();
+                        double distanceResult4 = distanceEntry4.Entry(MIN_MILES, MAX_MILES, "miles", TRAVELLED);
+                        double resultData4 = distanceEntry4.Calculate(distanceResult4, fuelResult4, MPG_FILENAME);
+                        Console.Clear();
+                        Console.WriteLine($"Your MPG is: {resultData4}{nl}");
                         Console.WriteLine("Press ENTER to continue");
                         Console.ReadLine();
                         break;
